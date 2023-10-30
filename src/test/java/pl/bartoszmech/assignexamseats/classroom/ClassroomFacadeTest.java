@@ -14,20 +14,21 @@ import static pl.bartoszmech.assignexamseats.classroom.LayoutValidationResult.SU
 
 public class ClassroomFacadeTest {
 
-    private ClassroomFacade classroomFacade;
+    ClassroomFacade classroomFacade;
+    ClassroomRepository repository = new ClassroomRepositoryTestImpl();
     private Map<String, Integer> classLayoutFromUser;
     @BeforeEach
     public void initClassroomFacade() {
-        classroomFacade = new ClassroomConfigurator().classroomFacadeForTest();
+        classroomFacade = new ClassroomConfigurator().classroomFacadeForTest(repository);
         classLayoutFromUser = new HashMap<>();
     }
 
     @Test
     public void should_return_dto_with_success_message_when_provide_valid_columns_and_rows() {
         //given
-        classLayoutFromUser.put("columns", MAXIMUM_NUMBER);
-        classLayoutFromUser.put("rows", MINIMUM_NUMBER);
-        ClassroomDto expectedDto = new ClassroomDto(SUCCESS_MESSAGE);
+        Integer columns = classLayoutFromUser.put("columns", MAXIMUM_NUMBER);
+        Integer rows = classLayoutFromUser.put("rows", MINIMUM_NUMBER);
+        ClassroomDto expectedDto = new ClassroomDto(SUCCESS_MESSAGE, columns, rows);
         //when
         ClassroomDto classroomDto = classroomFacade.inputClassroomLayout(classLayoutFromUser);
         //then
