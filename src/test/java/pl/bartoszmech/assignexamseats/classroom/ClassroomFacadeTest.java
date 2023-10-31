@@ -104,8 +104,8 @@ public class ClassroomFacadeTest {
         //given
         Classroom classroom1 = repository.save(new Classroom(5, 5));
         //when
-        AllClassroomsDto classroomDtos = classroomFacade.allClasses();
+        AllClassroomsDto classroomsDto = classroomFacade.allClasses();
         //then
-        assertThat(new ClassroomDto(classroom1.getColumns(), classroom1.getRows()) ).isEqualTo(classroomDtos.classroomsDto().get(0));
+        assertThat(new ClassroomDto(classroom1.getColumns(), classroom1.getRows()) ).isEqualTo(classroomsDto.classroomsDto().get(0));
     }
 }
