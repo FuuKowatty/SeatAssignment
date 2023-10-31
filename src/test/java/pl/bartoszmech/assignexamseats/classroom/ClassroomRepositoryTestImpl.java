@@ -10,8 +10,10 @@ public class ClassroomRepositoryTestImpl implements ClassroomRepository{
     Map<String, Classroom> database = new ConcurrentHashMap<>();
 
     @Override
-    public void save(Classroom classroom) {
-        database.put(UUID.randomUUID().toString(), classroom);
+    public Classroom save(Classroom classroom) {
+        String key = UUID.randomUUID().toString();
+        database.put(key, classroom);
+        return classroom;
     }
     @Override
     public List<Classroom> findAll() {

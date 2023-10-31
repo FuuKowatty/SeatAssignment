@@ -1,5 +1,7 @@
 package pl.bartoszmech.assignexamseats.classroom;
 
+import pl.bartoszmech.assignexamseats.classroom.dto.ClassroomDto;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +17,7 @@ class ClassroomValidator {
 
     List<ValidationEnum> errors = new LinkedList<>();
 
-    public LayoutValidationResult validate(Integer columns, Integer rows) {
+    LayoutValidationResult validate(Integer columns, Integer rows) {
         checkValue(columns, COLUMNS_NULL, COLUMNS_TOO_BIG, COLUMNS_TOO_SMALL);
         checkValue(rows, ROWS_NULL, ROWS_TOO_BIG, ROWS_TOO_SMALL);
 

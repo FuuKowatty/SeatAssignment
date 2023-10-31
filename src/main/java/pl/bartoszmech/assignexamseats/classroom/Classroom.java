@@ -1,8 +1,8 @@
 package pl.bartoszmech.assignexamseats.classroom;
 
 public class Classroom {
-    public Integer columns;
-    public Integer rows;
+    private final Integer columns;
+    private final Integer rows;
 
     public Classroom(Integer columns, Integer rows) {
         this.columns = columns;
