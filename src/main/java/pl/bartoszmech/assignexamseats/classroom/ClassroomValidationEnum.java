@@ -3,7 +3,7 @@ package pl.bartoszmech.assignexamseats.classroom;
 import static pl.bartoszmech.assignexamseats.classroom.ClassroomValidator.MAXIMUM_NUMBER;
 import static pl.bartoszmech.assignexamseats.classroom.ClassroomValidator.MINIMUM_NUMBER;
 
-enum ValidationEnum {
+enum ClassroomValidationEnum {
     COLUMNS_NULL("Columns are null"),
     ROWS_NULL("Rows are null"),
     COLUMNS_TOO_BIG("Columns are bigger than " + MAXIMUM_NUMBER),
@@ -13,7 +13,7 @@ enum ValidationEnum {
 
     final String message;
 
-    ValidationEnum(String message) {
+    ClassroomValidationEnum(String message) {
         this.message = message;
     }
 }

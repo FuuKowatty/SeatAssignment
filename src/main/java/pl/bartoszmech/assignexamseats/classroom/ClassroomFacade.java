@@ -3,6 +3,7 @@ package pl.bartoszmech.assignexamseats.classroom;
 import pl.bartoszmech.assignexamseats.classroom.dto.AllClassroomsDto;
 import pl.bartoszmech.assignexamseats.classroom.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.classroom.dto.ClassroomResponseDto;
+import pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ClassroomFacade {
     public ClassroomResponseDto addClassroomLayout(ClassroomDto classroomLayoutFromUser) {
         Integer columns = classroomLayoutFromUser.columns();
         Integer rows = classroomLayoutFromUser.rows();
-        LayoutValidationResult validate = classroomValidator.validate(columns, rows);
+        ValidatorResultFacade validate = classroomValidator.validate(columns, rows);
         String message = validate.resultMessage();
         if(validate.isValid()) {
             repository.save(new Classroom(columns, rows));

@@ -1,14 +1,14 @@
-package pl.bartoszmech.assignexamseats.classroom;
+package pl.bartoszmech.assignexamseats.validatorResult;
 
-record LayoutValidationResult(
+public record ValidatorResultFacade(
         String resultMessage,
         boolean isValid
 ) {
     public static final String SUCCESS_MESSAGE = "SUCCESS";
-    public static LayoutValidationResult success() {
-        return new LayoutValidationResult(SUCCESS_MESSAGE, true);
+    public static ValidatorResultFacade success() {
+        return new ValidatorResultFacade(SUCCESS_MESSAGE, true);
     }
-    public static LayoutValidationResult failure(String message) {
-        return new LayoutValidationResult(message, false);
+    public static ValidatorResultFacade failure(String message) {
+        return new ValidatorResultFacade(message, false);
     }
 }
