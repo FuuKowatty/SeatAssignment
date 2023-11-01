@@ -17,16 +17,16 @@ public class ClassFacade {
         this.classMapper = classMapper;
     }
 
-    public ClassDto addClassroomLayout(ClassDto classroomLayoutFromUser) {
-        String name = classroomLayoutFromUser.name();
+    public ClassDto create(ClassDto classDto) {
+        String name = classDto.name();
         ValidatorResultFacade validate = classValidator.validate(name);
         if(validate.isValid()) {
             repository.save(new UserClass(name));
         }
-        return new ClassDto(name);
+        return new ClassDto(validate.resultMessage(), name);
     }
 
-    public AllClassesDto allClasses() {
+    public AllClassesDto list() {
         List<UserClass> classrooms = repository.findAll();
         List<ClassDto> classroomsDto = classMapper.mapToListDto(classrooms);
         return new AllClassesDto(classroomsDto);
