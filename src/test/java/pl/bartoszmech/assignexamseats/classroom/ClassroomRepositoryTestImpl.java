@@ -1,11 +1,14 @@
-package pl.bartoszmech.assignexamseats.classroom;
+package pl.bartoszmech.assignexamseats.common;
+
+import pl.bartoszmech.assignexamseats.classroom.Classroom;
+import pl.bartoszmech.assignexamseats.classroom.ClassroomRepository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ClassroomRepositoryTestImpl implements ClassroomRepository{
+public class RepositoryTestImpl implements ClassroomRepository {
 
     Map<String, Classroom> database = new ConcurrentHashMap<>();
 
