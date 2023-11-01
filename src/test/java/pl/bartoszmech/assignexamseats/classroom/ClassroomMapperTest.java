@@ -36,7 +36,7 @@ public class ClassroomMapperTest {
         Classroom classroom = new Classroom(MAXIMUM_NUMBER,MINIMUM_NUMBER);
         ClassroomDto expectedClassroomDto = new ClassroomDto(MAXIMUM_NUMBER,MINIMUM_NUMBER);
         //when
-        ClassroomDto classroomDto = classroomMapper.mapToClassroomDto(classroom);
+        ClassroomDto classroomDto = classroomMapper.mapToClassroomDto("", classroom);
         //then
         assertThat(classroomDto).isInstanceOf(ClassroomDto.class);
         assertThat(classroomDto.rows()).isEqualTo(expectedClassroomDto.rows());
@@ -61,7 +61,19 @@ public class ClassroomMapperTest {
         //then
         classroomListDto.stream()
                 .map((classroomDto -> assertThat(classroomDto).isInstanceOf(ClassroomDto.class)));
+        classroomListDto.stream()
+                .map((classroomDto -> assertThat(classroomDto.message()).isEqualTo(null)));
         assertThat(classroomListDto.size()).isEqualTo(expectedListDto.size());
 
+    }
+
+    @Test
+    public void should_return_null_message_when_provide_null_as_message() {
+        //given
+        Classroom classroom = new Classroom(MINIMUM_NUMBER, MINIMUM_NUMBER);
+        //when
+        ClassroomDto classroomDto = classroomMapper.mapToClassroomDto(null, classroom);
+        //then
+        assertThat(classroomDto.message()).isNull();
     }
 }

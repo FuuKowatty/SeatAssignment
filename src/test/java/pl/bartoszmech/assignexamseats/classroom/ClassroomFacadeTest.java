@@ -1,12 +1,16 @@
 package pl.bartoszmech.assignexamseats.classroom;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.bartoszmech.assignexamseats.classroom.dto.AllClassroomsDto;
 import pl.bartoszmech.assignexamseats.classroom.dto.ClassroomDto;
-import pl.bartoszmech.assignexamseats.classroom.dto.ClassroomResponseDto;
+import pl.bartoszmech.assignexamseats.userclass.dto.ClassDto;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static pl.bartoszmech.assignexamseats.classroom.ClassroomValidator.MAXIMUM_NUMBER;
 import static pl.bartoszmech.assignexamseats.classroom.ClassroomValidator.MINIMUM_NUMBER;
 import static pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade.SUCCESS_MESSAGE;
@@ -23,13 +27,15 @@ public class ClassroomFacadeTest {
     @Test
     public void should_return_dto_with_success_message_when_provide_valid_columns_and_rows() {
         //given
-        ClassroomDto classLayoutFromUser = new ClassroomDto(MAXIMUM_NUMBER, MINIMUM_NUMBER);
-        ClassroomResponseDto expectedDto = new ClassroomResponseDto(SUCCESS_MESSAGE, classLayoutFromUser.columns(), classLayoutFromUser.rows());
+        Integer columns = MAXIMUM_NUMBER;
+        Integer rows = MAXIMUM_NUMBER;
+        ClassroomDto classLayoutFromUser = new ClassroomDto(columns, rows);
+        ClassroomDto expectedDto = new ClassroomDto(SUCCESS_MESSAGE, columns, rows);
         //when
-        ClassroomResponseDto classroomResponseDto = classroomFacade.addClassroomLayout(classLayoutFromUser);
+        ClassroomDto classroomResponseDto = classroomFacade.create(classLayoutFromUser);
         //then
         assertThat(classroomResponseDto.message()).isEqualTo(expectedDto.message());
-        assertThat(classroomResponseDto).isInstanceOf(ClassroomResponseDto.class);
+        assertThat(classroomResponseDto).isInstanceOf(ClassroomDto.class);
     }
 
     @Test
@@ -38,7 +44,7 @@ public class ClassroomFacadeTest {
         ClassroomDto classLayoutFromUser = new ClassroomDto(MAXIMUM_NUMBER+1, MINIMUM_NUMBER);
         String expectedMessage = ClassroomValidationEnum.COLUMNS_TOO_BIG.message;
         //when
-        ClassroomResponseDto classroomResponseDto = classroomFacade.addClassroomLayout(classLayoutFromUser);
+        ClassroomDto classroomResponseDto = classroomFacade.create(classLayoutFromUser);
         //then
         assertThat(classroomResponseDto.message()).isEqualTo(expectedMessage);
     }
@@ -49,7 +55,7 @@ public class ClassroomFacadeTest {
         ClassroomDto classLayoutFromUser = new ClassroomDto(MINIMUM_NUMBER-1, MINIMUM_NUMBER);
         String expectedMessage = ClassroomValidationEnum.COLUMNS_TOO_SMALL.message;
         //when
-        ClassroomResponseDto classroomResponseDto = classroomFacade.addClassroomLayout(classLayoutFromUser);
+        ClassroomDto classroomResponseDto = classroomFacade.create(classLayoutFromUser);
         //then
         assertThat(classroomResponseDto.message()).isEqualTo(expectedMessage);
     }
@@ -60,7 +66,7 @@ public class ClassroomFacadeTest {
         ClassroomDto classLayoutFromUser = new ClassroomDto(null, MINIMUM_NUMBER);
         String expectedMessage = ClassroomValidationEnum.COLUMNS_NULL.message;
         //when
-        ClassroomResponseDto classroomResponseDto = classroomFacade.addClassroomLayout(classLayoutFromUser);
+        ClassroomDto classroomResponseDto = classroomFacade.create(classLayoutFromUser);
         //then
         assertThat(classroomResponseDto.message()).isEqualTo(expectedMessage);
     }
@@ -72,7 +78,7 @@ public class ClassroomFacadeTest {
 
         String expectedMessage = ClassroomValidationEnum.ROWS_TOO_BIG.message;
         //when
-        ClassroomResponseDto classroomResponseDto = classroomFacade.addClassroomLayout(classLayoutFromUser);
+        ClassroomDto classroomResponseDto = classroomFacade.create(classLayoutFromUser);
         //then
         assertThat(classroomResponseDto.message()).isEqualTo(expectedMessage);
     }
@@ -83,7 +89,7 @@ public class ClassroomFacadeTest {
         ClassroomDto classLayoutFromUser = new ClassroomDto(MAXIMUM_NUMBER, MINIMUM_NUMBER-1);
         String expectedMessage = ClassroomValidationEnum.ROWS_TOO_SMALL.message;
         //when
-        ClassroomResponseDto classroomResponseDto = classroomFacade.addClassroomLayout(classLayoutFromUser);
+        ClassroomDto classroomResponseDto = classroomFacade.create(classLayoutFromUser);
         //then
         assertThat(classroomResponseDto.message()).isEqualTo(expectedMessage);
     }
@@ -94,18 +100,33 @@ public class ClassroomFacadeTest {
         ClassroomDto classLayoutFromUser = new ClassroomDto(MAXIMUM_NUMBER, null);
         String expectedMessage = ClassroomValidationEnum.ROWS_NULL.message;
         //when
-        ClassroomResponseDto classroomResponseDto = classroomFacade.addClassroomLayout(classLayoutFromUser);
+        ClassroomDto classroomResponseDto = classroomFacade.create(classLayoutFromUser);
         //then
         assertThat(classroomResponseDto.message()).isEqualTo(expectedMessage);
     }
 
     @Test
-    public void should_return_all_classrooms() {
+    public void should_return_all_classrooms_when_list() {
         //given
-        Classroom classroom1 = repository.save(new Classroom(5, 5));
+        Classroom classroom1 = repository.save(new Classroom(MAXIMUM_NUMBER, MINIMUM_NUMBER));
+        List<ClassroomDto> expectedDto = List.of(new ClassroomDto(MAXIMUM_NUMBER, MAXIMUM_NUMBER));
         //when
-        AllClassroomsDto classroomsDto = classroomFacade.allClasses();
+        AllClassroomsDto classroomsDto = classroomFacade.list();
         //then
-        assertThat(new ClassroomDto(classroom1.getColumns(), classroom1.getRows()) ).isEqualTo(classroomsDto.classroomsDto().get(0));
+
+        assertThat(classroomsDto.classroomsDto().size()).isEqualTo(expectedDto.size());
+        assertThat(classroomsDto.classroomsDto().get(0).columns()).isEqualTo(expectedDto.get(0).columns());
+        assertThat(classroomsDto.classroomsDto().get(0)).isInstanceOf(ClassroomDto.class);
+    }
+
+    @Test
+    public void should_return_list_with_null_messages_when_list() {
+        //given
+        Classroom classroom1 = repository.save(new Classroom(MAXIMUM_NUMBER, MINIMUM_NUMBER));
+        //when
+        AllClassroomsDto classroomsDto = classroomFacade.list();
+        //then
+
+        assertThat(classroomsDto.classroomsDto().get(0).message()).isNull();
     }
 }
