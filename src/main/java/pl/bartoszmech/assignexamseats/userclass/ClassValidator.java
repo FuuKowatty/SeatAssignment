@@ -4,7 +4,6 @@ import pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static pl.bartoszmech.assignexamseats.userclass.ClassValidationEnum.*;
@@ -18,7 +17,7 @@ class ClassValidator {
     List<ClassValidationEnum> errors = new LinkedList<>();
 
     ValidatorResultFacade validate(String name) {
-        checkValue(name, NOT_NULL, TOO_SHORT, TOO_LONG);
+        checkValue(name, NAME_NULL, NAME_TOO_SHORT, NAME_TOO_LONG);
         return errors.isEmpty() ? success() : failure(concatenateValidationMessage());
     }
 

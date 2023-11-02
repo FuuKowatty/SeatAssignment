@@ -42,7 +42,7 @@ public class ClassFacadeTest {
         //given
         String name = randomString.substring(0, MAXIMUM_CHARACTERS+1);
         ClassDto inputClassDto = new ClassDto(name);
-        String expectedMessage = ClassValidationEnum.TOO_LONG.message;
+        String expectedMessage = ClassValidationEnum.NAME_TOO_LONG.message;
         //when
         ClassDto classroomResponseDto = classFacade.create(inputClassDto);
         //then
@@ -54,7 +54,7 @@ public class ClassFacadeTest {
         //given
         String name = randomString.substring(0, MINIMUM_CHARACTERS-1);
         ClassDto inputClassDto = new ClassDto(name);
-        String expectedMessage = ClassValidationEnum.TOO_SHORT.message;
+        String expectedMessage = ClassValidationEnum.NAME_TOO_SHORT.message;
         //when
         ClassDto classResponseDto = classFacade.create(inputClassDto);
         //then
@@ -66,7 +66,7 @@ public class ClassFacadeTest {
         //given
         String name = null;
         ClassDto inputClassDto = new ClassDto(null);
-        String expectedMessage = ClassValidationEnum.NOT_NULL.message;
+        String expectedMessage = ClassValidationEnum.NAME_NULL.message;
         //when
         ClassDto classroomResponseDto = classFacade.create(inputClassDto);
         //then
