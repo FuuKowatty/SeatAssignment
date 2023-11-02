@@ -15,13 +15,18 @@ public class StudentMapper {
         );
     }
 
-    StudentDto mapToStudentDto(Student student) {
-        return new StudentDto(student.getFirstName(), student.getLastName(), student.getAge());
+    StudentDto mapToStudentDto(String message ,Student student) {
+        return new StudentDto(
+                message,
+                student.getFirstName(),
+                student.getLastName(),
+                student.getAge()
+        );
     }
 
     List<StudentDto> mapToListDto(List<Student> students) {
         return students.stream()
-                .map(student -> new StudentDto(student.getFirstName(), student.getLastName(), student.getAge()))
+                .map(student -> mapToStudentDto(null ,student))
                 .toList();
     }
 }
