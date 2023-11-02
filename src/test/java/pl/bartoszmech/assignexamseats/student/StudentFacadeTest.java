@@ -43,7 +43,7 @@ public class StudentFacadeTest {
         //when
         StudentDto studentDto = studentFacade.create(classLayoutFromUser);
         //then
-        assertThat(studentDto.message()).isEqualTo(TOO_LONG.message);
+        assertThat(studentDto.message()).isEqualTo(FIRST_NAME_TOO_LONG.message);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class StudentFacadeTest {
         //when
         StudentDto studentDto = studentFacade.create(classLayoutFromUser);
         //then
-        assertThat(studentDto.message()).isEqualTo(TOO_SHORT.message);
+        assertThat(studentDto.message()).isEqualTo(FIRST_NAME_TOO_SHORT.message);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class StudentFacadeTest {
         //when
         StudentDto studentDto = studentFacade.create(classLayoutFromUser);
         //then
-        assertThat(studentDto.message()).isEqualTo(NULL_ERROR.message);
+        assertThat(studentDto.message()).isEqualTo(FIRST_NAME_NULL.message);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class StudentFacadeTest {
         //when
         StudentDto studentDto = studentFacade.create(classLayoutFromUser);
         //then
-        assertThat(studentDto.message()).isEqualTo(DIGITS_NOT_ALLOWED.message);
+        assertThat(studentDto.message()).isEqualTo(FIRST_NAME_DIGITS_NOT_ALLOWED.message);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class StudentFacadeTest {
         //when
         StudentDto studentDto = studentFacade.create(classLayoutFromUser);
         //then
-        assertThat(studentDto.message()).isEqualTo(TOO_LONG.message);
+        assertThat(studentDto.message()).isEqualTo(LAST_NAME_TOO_LONG.message);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class StudentFacadeTest {
         //when
         StudentDto studentDto = studentFacade.create(classLayoutFromUser);
         //then
-        assertThat(studentDto.message()).isEqualTo(TOO_SHORT.message);
+        assertThat(studentDto.message()).isEqualTo(LAST_NAME_TOO_SHORT.message);
     }
 
     @Test
@@ -121,7 +121,7 @@ public class StudentFacadeTest {
         //when
         StudentDto studentDto = studentFacade.create(classLayoutFromUser);
         //then
-        assertThat(studentDto.message()).isEqualTo(NULL_ERROR.message);
+        assertThat(studentDto.message()).isEqualTo(LAST_NAME_NULL.message);
     }
 
     @Test
@@ -134,7 +134,7 @@ public class StudentFacadeTest {
         //when
         StudentDto studentDto = studentFacade.create(classLayoutFromUser);
         //then
-        assertThat(studentDto.message()).isEqualTo(DIGITS_NOT_ALLOWED.message);
+        assertThat(studentDto.message()).isEqualTo(LAST_NAME_DIGITS_NOT_ALLOWED.message);
     }
 
     @Test
@@ -147,7 +147,7 @@ public class StudentFacadeTest {
         //when
         StudentDto studentDto = studentFacade.create(classLayoutFromUser);
         //then
-        assertThat(studentDto.message()).isEqualTo(NULL_ERROR.message);
+        assertThat(studentDto.message()).isEqualTo(AGE_NULL.message);
     }
 
     @Test
@@ -160,7 +160,7 @@ public class StudentFacadeTest {
         //when
         StudentDto studentDto = studentFacade.create(classLayoutFromUser);
         //then
-        assertThat(studentDto.message()).isEqualTo(RANGE_ERROR.message);
+        assertThat(studentDto.message()).isEqualTo(AGE_RANGE_ERROR.message);
     }
 
     @Test
@@ -173,6 +173,6 @@ public class StudentFacadeTest {
         //when
         StudentDto studentDto = studentFacade.create(classLayoutFromUser);
         //then
-        assertThat(studentDto.message()).isEqualTo(RANGE_ERROR.message);
+        assertThat(studentDto.message()).isEqualTo(AGE_RANGE_ERROR.message);
     }
 }

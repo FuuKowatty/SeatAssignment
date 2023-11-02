@@ -20,9 +20,9 @@ class StudentValidator {
     List<StudentValidationEnum> errors = new LinkedList<>();
 
     ValidatorResultFacade validate(String firstName, String lastName, Byte age) {
-        checkStringValue(firstName, TOO_SHORT, TOO_LONG, DIGITS_NOT_ALLOWED, NULL_ERROR);
-        checkStringValue(lastName, TOO_SHORT, TOO_LONG, DIGITS_NOT_ALLOWED, NULL_ERROR);
-        checkAge(age, NULL_ERROR, RANGE_ERROR);
+        checkStringValue(firstName, FIRST_NAME_TOO_SHORT, FIRST_NAME_TOO_LONG, FIRST_NAME_DIGITS_NOT_ALLOWED, FIRST_NAME_NULL);
+        checkStringValue(lastName, LAST_NAME_TOO_SHORT, LAST_NAME_TOO_LONG, LAST_NAME_DIGITS_NOT_ALLOWED, LAST_NAME_NULL);
+        checkAge(age, AGE_NULL, AGE_RANGE_ERROR);
 
 
         return errors.isEmpty() ? success() : failure(concatenateValidationMessage());
