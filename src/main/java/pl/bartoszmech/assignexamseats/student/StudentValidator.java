@@ -4,7 +4,6 @@ import pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -15,15 +14,34 @@ import static pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFaca
 class StudentValidator {
     public static final Byte MAXIMUM_CHARACTERS = 50;
     public static final Byte MINIMUM_CHARACTERS = 2;
+    public static final Byte MINIMUM_AGE = 4;
+    public static final Byte MAXIMUM_AGE = 127;
+
     List<StudentValidationEnum> errors = new LinkedList<>();
 
     ValidatorResultFacade validate(String firstName, String lastName, Byte age) {
-        checkStringValue(firstName, TOO_SHORT, TOO_LONG, DIGITS_NOT_ALLOWED, NOT_NULL);
-        checkStringValue(lastName, TOO_SHORT, TOO_LONG, DIGITS_NOT_ALLOWED, NOT_NULL);
+        checkStringValue(firstName, TOO_SHORT, TOO_LONG, DIGITS_NOT_ALLOWED, NULL_ERROR);
+        checkStringValue(lastName, TOO_SHORT, TOO_LONG, DIGITS_NOT_ALLOWED, NULL_ERROR);
+        checkAge(age, NULL_ERROR, RANGE_ERROR);
 
 
         return errors.isEmpty() ? success() : failure(concatenateValidationMessage());
     }
+
+    private void checkAge(Byte age, StudentValidationEnum nullError, StudentValidationEnum rangeError) {
+        if(isNull(age)) {
+            errors.add(nullError);
+            return;
+        }
+        if(!isInRange(age)) {
+            errors.add(rangeError);
+        };
+    }
+
+    private boolean isInRange(Byte age) {
+        return age >= MINIMUM_AGE && age <= MAXIMUM_CHARACTERS;
+    }
+
 
     private void checkStringValue(String name, StudentValidationEnum tooShortError, StudentValidationEnum tooLongError, StudentValidationEnum digitsError, StudentValidationEnum nullError) {
         if (isNull(name)) {
@@ -33,7 +51,6 @@ class StudentValidator {
 
         if (hasDigits(name)) {
             errors.add(digitsError);
-            return;
         }
 
         if (isStringTooShort(name)) {
@@ -61,7 +78,7 @@ class StudentValidator {
         return name.length() < MINIMUM_CHARACTERS;
     }
 
-    private boolean isNull(String name) {
-        return name == null;
+    private <T> boolean isNull(T value) {
+        return value == null;
     }
 }
