@@ -10,43 +10,37 @@ import java.util.Random;
 
 import java.util.*;
 
+import static java.util.Collections.shuffle;
+
 public class SeatAssignmentGeneratorFacade {
     public SeatAssignmentDto generateSeatAssignment(ClassroomDto classroomDto, AllStudentsDto presentStudents) {
         //validate
-        Integer allSeats = classroomDto.columns() * classroomDto.rows();
-        if(presentStudents.students().size() > allSeats) {}
+        int allSeatsCount = classroomDto.columns() * classroomDto.rows();
+        if(presentStudents.students().size() > allSeatsCount) {}
 
         //generate
-        Random rand = new Random();
         int columns = classroomDto.columns();
-        Integer rows = classroomDto.rows();
+        int rows = classroomDto.rows();
         List<SeatDto> seats = new ArrayList<>();
-
-        List<StudentDto> randomizedStudents = presentStudents.students().stream()
-                .map(student -> new AbstractMap.SimpleEntry<>(student, Math.random()))
-                .sorted(Comparator.comparingDouble(Map.Entry::getValue))
-                .map(Map.Entry::getKey)
-                .toList();
-
-        int i = 0;
-        while (true) {
-            String fullName = randomizedStudents.get(i).firstName() + " " + randomizedStudents.get(i).lastName();
-            int randomColumn = rand.nextInt(columns)+1;
-            int randomRow = rand.nextInt(rows)+1;
-
-            SeatDto randomSeat = new SeatDto(randomColumn, randomRow, fullName);
-
-            if(seats.stream().filter(r -> r.row() == randomRow && r.column() == randomColumn).toList().isEmpty()) {
-                seats.add(randomSeat);
-            } else {
-                continue;
-            }
-
-            i++;
-            if(seats.size() == randomizedStudents.size()) {
-                break;
+        for (int row = 1; row <= rows; row++) {
+            for (int column = 1; column <= columns; column++) {
+                seats.add(new SeatDto(column, row, ""));
             }
         }
-        return new SeatAssignmentDto(seats);
+        shuffle(seats);
+
+        List<StudentDto> randomizedStudents = presentStudents.students().stream()
+                .sorted(Comparator.comparingDouble(s -> Math.random()))
+                .toList();
+
+
+
+        List<SeatDto> assignmentedSeats = new LinkedList<>();
+        for (int i = 0; i < randomizedStudents.size(); i++) {
+            String fullName = randomizedStudents.get(i).firstName() + " " + randomizedStudents.get(i).lastName();
+            assignmentedSeats.add(new SeatDto(seats.get(i).column(), seats.get(i).row(), fullName));
+        }
+
+        return new SeatAssignmentDto(assignmentedSeats);
     }
 }
