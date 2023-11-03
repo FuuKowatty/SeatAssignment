@@ -1,4 +1,4 @@
-package pl.bartoszmech.assignexamseats.seatAssignmentGenerator.dto;
+package pl.bartoszmech.assignexamseats.seatassignment.dto;
 
 import java.util.List;
 

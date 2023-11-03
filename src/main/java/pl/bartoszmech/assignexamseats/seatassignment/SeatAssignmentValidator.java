@@ -15,11 +15,8 @@ public class SeatAssignmentValidator {
         if(classroomSize < studentsCount) {
             errors.add(SeatAssignmentValidationEnum.TOO_MUCH_STUDENTS);
         }
-
-
         return errors.isEmpty() ? success() : failure(concatenateValidationMessage());
     }
-
     private String concatenateValidationMessage() {
         return errors.stream()
                 .map(error -> error.message)

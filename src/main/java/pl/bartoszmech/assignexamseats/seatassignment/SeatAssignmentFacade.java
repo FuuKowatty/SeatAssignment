@@ -22,6 +22,7 @@ public class SeatAssignmentFacade {
 
     public SeatAssignmentDto handleSeatAssignment(ClassroomDto classroomDto, AllStudentsDto presentStudents) {
         List<StudentDto> students = presentStudents.students();
+        //unhandled validation
         ValidatorResultFacade validationResult = validator.validate(getClassroomSize(classroomDto), getStudentsCount(students));
         return generator.generate(
                 classroomDto.columns(),
