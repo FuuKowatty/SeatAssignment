@@ -16,8 +16,9 @@ public class SeatAssignmentFacade {
     SeatAssignmentValidator validator;
     SeatAssignmentGenerator generator;
 
-    public SeatAssignmentFacade(SeatAssignmentValidator validator) {
+    public SeatAssignmentFacade(SeatAssignmentValidator validator, SeatAssignmentGenerator generator) {
         this.validator = validator;
+        this.generator = generator;
     }
 
     public SeatAssignmentDto handleSeatAssignment(ClassroomDto classroomDto, AllStudentsDto presentStudents) {

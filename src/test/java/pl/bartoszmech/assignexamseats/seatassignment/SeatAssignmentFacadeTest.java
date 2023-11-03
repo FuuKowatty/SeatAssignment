@@ -1,20 +1,27 @@
-package pl.bartoszmech.assignexamseats.seatAssignmentGenerator;
+package pl.bartoszmech.assignexamseats.seatassignment;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.bartoszmech.assignexamseats.classroom.dto.ClassroomDto;
-import pl.bartoszmech.assignexamseats.seatAssignmentGenerator.dto.SeatAssignmentDto;
+import pl.bartoszmech.assignexamseats.seatassignment.dto.SeatAssignmentDto;
 import pl.bartoszmech.assignexamseats.student.dto.AllStudentsDto;
 import pl.bartoszmech.assignexamseats.student.dto.StudentDto;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
 
-public class SeatAssignmentGeneratorFacadeTest {
+
+public class SeatAssignmentFacadeTest {
+    SeatAssignmentFacade seatAssignmentFacade;
+    @BeforeEach
+    public void initConfiguration() {
+        seatAssignmentFacade = new SeatAssignmentConfiguration().seatAssignmentFacadeForTest();
+    }
 
     @Test
-    public void should_generate_random_seats_assignment_for_each_student_on_generateSeatAssignment() {
+    public void should_generate_random_seats_assignment_for_each_student_on_handleSeatAssignment() {
         //given
-        SeatAssignmentGeneratorFacade generatorFacade = new SeatAssignmentGeneratorFacade();
         ClassroomDto classroom = new ClassroomDto(127, 127);
         AllStudentsDto studentsList = new AllStudentsDto(List.of(
                 new StudentDto("Jan", "Kowalski", (byte) 18),
@@ -23,7 +30,9 @@ public class SeatAssignmentGeneratorFacadeTest {
                 new StudentDto("Aleksy", "Marchewka", (byte) 18)
         ));
         //when
-        SeatAssignmentDto seats = generatorFacade.generateSeatAssignment(classroom, studentsList);
-        System.out.println(seats);
+        SeatAssignmentDto seats = seatAssignmentFacade.handleSeatAssignment(classroom, studentsList);
+        //then
+        assertThat(seats).isInstanceOf(SeatAssignmentDto.class);
+        assertThat(seats.seats().size()).isEqualTo(studentsList.students().size());
     }
 }
