@@ -35,12 +35,12 @@ public class SeatAssignmentGeneratorFacade {
 
 
 
-        List<SeatDto> assignmentedSeats = new LinkedList<>();
+        List<SeatDto> assignedSeats  = new LinkedList<>();
         for (int i = 0; i < randomizedStudents.size(); i++) {
             String fullName = randomizedStudents.get(i).firstName() + " " + randomizedStudents.get(i).lastName();
-            assignmentedSeats.add(new SeatDto(seats.get(i).column(), seats.get(i).row(), fullName));
+            assignedSeats.add(new SeatDto(seats.get(i).column(), seats.get(i).row(), fullName));
         }
 
-        return new SeatAssignmentDto(assignmentedSeats);
+        return new SeatAssignmentDto(assignedSeats);
     }
 }
