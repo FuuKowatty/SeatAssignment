@@ -21,14 +21,13 @@ public class SeatAssignmentFacade {
     }
 
     public SeatAssignmentDto handleSeatAssignment(ClassroomDto classroomDto, AllStudentsDto presentStudents) {
-        int columns = classroomDto.columns();
-        int rows = classroomDto.rows();
-        int allSeatsCount = classroomDto.columns() * classroomDto.rows();
-
         List<StudentDto> students = presentStudents.students();
-        ValidatorResultFacade validationResult = validator.validate(allSeatsCount, getStudentsCount(students));
-
-        return generator.generate(columns, rows, students);
+        ValidatorResultFacade validationResult = validator.validate(getClassroomSize(classroomDto), getStudentsCount(students));
+        return generator.generate(
+                classroomDto.columns(),
+                classroomDto.rows(),
+                students
+        );
     }
 
     private int getStudentsCount(List<StudentDto> presentStudents) {
