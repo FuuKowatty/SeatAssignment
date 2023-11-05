@@ -25,7 +25,7 @@ public class ClassroomService {
     }
     public ClassroomDto create(ClassroomDto inputClassroom) {
        LOGGER.info(inputClassroom.toString());
-        ValidatorResult validatorResult = validator.validate(inputClassroom.columns(), inputClassroom.rows());
+        ValidatorResult validatorResult = validator.validate(inputClassroom.name(), inputClassroom.columns(), inputClassroom.rows());
         if(!validatorResult.isValid()) {
             throw new RuntimeException(validatorResult.resultMessage());
         }
