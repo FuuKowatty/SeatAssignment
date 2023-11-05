@@ -1,7 +1,5 @@
 package pl.bartoszmech.assignexamseats.student;
 
-import pl.bartoszmech.assignexamseats.classroom.Classroom;
-import pl.bartoszmech.assignexamseats.classroom.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.student.dto.StudentDto;
 
 import java.util.List;

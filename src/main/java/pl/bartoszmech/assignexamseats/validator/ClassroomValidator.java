@@ -1,22 +1,24 @@
-package pl.bartoszmech.assignexamseats.classroom;
-import pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade;
+package pl.bartoszmech.assignexamseats.validator;
+
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.bartoszmech.assignexamseats.classroom.ClassroomValidator.Errors.*;
-import static pl.bartoszmech.assignexamseats.classroom.ClassroomValidationEnum.*;
-import static pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade.failure;
-import static pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade.success;
+import static pl.bartoszmech.assignexamseats.validator.ClassroomValidationEnum.*;
+import static pl.bartoszmech.assignexamseats.validator.ClassroomValidator.Errors.*;
+import static pl.bartoszmech.assignexamseats.validator.ValidatorResult.failure;
+import static pl.bartoszmech.assignexamseats.validator.ValidatorResult.success;
 
-class ClassroomValidator {
+@Component
+public class ClassroomValidator {
     public static final int MAXIMUM_NUMBER = 99;
     public static final int MINIMUM_NUMBER = 1;
 
-    List<ClassroomValidationEnum> errors = new LinkedList<>();
+    private final List<ClassroomValidationEnum> errors = new LinkedList<>();
 
-    ValidatorResultFacade validate(Integer columns, Integer rows) {
+    public ValidatorResult validate(Integer columns, Integer rows) {
         checkValue(columns, COLUMNS_NULL, COLUMNS_TOO_BIG, COLUMNS_TOO_SMALL);
         checkValue(rows, ROWS_NULL, ROWS_TOO_BIG, ROWS_TOO_SMALL);
 

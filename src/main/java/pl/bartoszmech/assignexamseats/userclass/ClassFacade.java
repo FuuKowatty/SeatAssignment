@@ -2,7 +2,7 @@ package pl.bartoszmech.assignexamseats.userclass;
 
 import pl.bartoszmech.assignexamseats.userclass.dto.AllClassesDto;
 import pl.bartoszmech.assignexamseats.userclass.dto.ClassDto;
-import pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade;
+import pl.bartoszmech.assignexamseats.validator.ValidatorResult;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class ClassFacade {
 
     public ClassDto create(ClassDto classDto) {
         String name = classDto.name();
-        ValidatorResultFacade validate = classValidator.validate(name);
+        ValidatorResult validate = classValidator.validate(name);
         if(validate.isValid()) {
             repository.save(new UserClass(name));
         }

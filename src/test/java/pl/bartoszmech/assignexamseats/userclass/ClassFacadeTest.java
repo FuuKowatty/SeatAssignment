@@ -12,7 +12,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static pl.bartoszmech.assignexamseats.userclass.ClassValidator.MAXIMUM_CHARACTERS;
 import static pl.bartoszmech.assignexamseats.userclass.ClassValidator.MINIMUM_CHARACTERS;
-import static pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade.SUCCESS_MESSAGE;
+import static pl.bartoszmech.assignexamseats.validator.ValidatorResult.SUCCESS_MESSAGE;
 
 public class ClassFacadeTest {
 

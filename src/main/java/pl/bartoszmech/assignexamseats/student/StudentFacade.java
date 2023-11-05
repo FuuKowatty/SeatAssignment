@@ -1,7 +1,7 @@
 package pl.bartoszmech.assignexamseats.student;
 
 import pl.bartoszmech.assignexamseats.student.dto.StudentDto;
-import pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade;
+import pl.bartoszmech.assignexamseats.validator.ValidatorResult;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class StudentFacade {
         String lastName = studentInputData.lastName();
         Byte age = studentInputData.age();
 
-        ValidatorResultFacade validate = studentValidator.validate(firstName, lastName, age);
+        ValidatorResult validate = studentValidator.validate(firstName, lastName, age);
         String message = validate.resultMessage();
         if(validate.isValid()) {
             repository.save(new Student(firstName, lastName, age));

@@ -1,6 +1,5 @@
 package pl.bartoszmech.assignexamseats.seatassignment;
 
-import pl.bartoszmech.assignexamseats.classroom.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.seatassignment.dto.SeatAssignmentDto;
 import pl.bartoszmech.assignexamseats.seatassignment.dto.SeatDto;
 import pl.bartoszmech.assignexamseats.student.dto.StudentDto;

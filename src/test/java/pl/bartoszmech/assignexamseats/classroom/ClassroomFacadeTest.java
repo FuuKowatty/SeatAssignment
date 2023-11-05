@@ -1,19 +1,17 @@
 package pl.bartoszmech.assignexamseats.classroom;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.bartoszmech.assignexamseats.classroom.dto.AllClassroomsDto;
-import pl.bartoszmech.assignexamseats.classroom.dto.ClassroomDto;
-import pl.bartoszmech.assignexamseats.userclass.dto.ClassDto;
+import pl.bartoszmech.assignexamseats.model.dto.ClassroomDto;
+import pl.bartoszmech.assignexamseats.validator.ClassroomValidationEnum;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static pl.bartoszmech.assignexamseats.classroom.ClassroomValidator.MAXIMUM_NUMBER;
-import static pl.bartoszmech.assignexamseats.classroom.ClassroomValidator.MINIMUM_NUMBER;
-import static pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade.SUCCESS_MESSAGE;
+import static pl.bartoszmech.assignexamseats.validator.ClassroomValidator.MAXIMUM_NUMBER;
+import static pl.bartoszmech.assignexamseats.validator.ClassroomValidator.MINIMUM_NUMBER;
+import static pl.bartoszmech.assignexamseats.validator.ValidatorResult.SUCCESS_MESSAGE;
 
 public class ClassroomFacadeTest {
 

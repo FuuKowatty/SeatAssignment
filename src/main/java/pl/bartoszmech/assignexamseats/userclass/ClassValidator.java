@@ -1,14 +1,14 @@
 package pl.bartoszmech.assignexamseats.userclass;
 
-import pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade;
+import pl.bartoszmech.assignexamseats.validator.ValidatorResult;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static pl.bartoszmech.assignexamseats.userclass.ClassValidationEnum.*;
-import static pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade.failure;
-import static pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade.success;
+import static pl.bartoszmech.assignexamseats.validator.ValidatorResult.failure;
+import static pl.bartoszmech.assignexamseats.validator.ValidatorResult.success;
 
 class ClassValidator {
     public static final Byte MAXIMUM_CHARACTERS = 50;
@@ -16,7 +16,7 @@ class ClassValidator {
 
     List<ClassValidationEnum> errors = new LinkedList<>();
 
-    ValidatorResultFacade validate(String name) {
+    ValidatorResult validate(String name) {
         checkValue(name, NAME_NULL, NAME_TOO_SHORT, NAME_TOO_LONG);
         return errors.isEmpty() ? success() : failure(concatenateValidationMessage());
     }

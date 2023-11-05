@@ -1,11 +1,10 @@
 package pl.bartoszmech.assignexamseats.seatassignment;
 
-import pl.bartoszmech.assignexamseats.classroom.dto.ClassroomDto;
+import pl.bartoszmech.assignexamseats.model.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.seatassignment.dto.SeatAssignmentDto;
-import pl.bartoszmech.assignexamseats.seatassignment.dto.SeatDto;
 import pl.bartoszmech.assignexamseats.student.dto.AllStudentsDto;
 import pl.bartoszmech.assignexamseats.student.dto.StudentDto;
-import pl.bartoszmech.assignexamseats.validatorResult.ValidatorResultFacade;
+import pl.bartoszmech.assignexamseats.validator.ValidatorResult;
 
 
 import java.util.*;
@@ -24,7 +23,7 @@ public class SeatAssignmentFacade {
     public SeatAssignmentDto handleSeatAssignment(ClassroomDto classroomDto, AllStudentsDto presentStudents) {
         List<StudentDto> students = presentStudents.students();
         //unhandled validation
-        ValidatorResultFacade validationResult = validator.validate(getClassroomSize(classroomDto), getStudentsCount(students));
+        ValidatorResult validationResult = validator.validate(getClassroomSize(classroomDto), getStudentsCount(students));
         return generator.generate(
                 classroomDto.columns(),
                 classroomDto.rows(),

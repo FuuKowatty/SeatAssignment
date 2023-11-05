@@ -1,7 +1,7 @@
-package pl.bartoszmech.assignexamseats.classroom;
+package pl.bartoszmech.assignexamseats.validator;
 
-import static pl.bartoszmech.assignexamseats.classroom.ClassroomValidator.MAXIMUM_NUMBER;
-import static pl.bartoszmech.assignexamseats.classroom.ClassroomValidator.MINIMUM_NUMBER;
+import static pl.bartoszmech.assignexamseats.validator.ClassroomValidator.MAXIMUM_NUMBER;
+import static pl.bartoszmech.assignexamseats.validator.ClassroomValidator.MINIMUM_NUMBER;
 
 enum ClassroomValidationEnum {
     COLUMNS_NULL("Columns are null"),

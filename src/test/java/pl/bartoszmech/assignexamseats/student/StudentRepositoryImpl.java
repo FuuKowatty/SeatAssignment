@@ -1,7 +1,5 @@
 package pl.bartoszmech.assignexamseats.student;
 
-import pl.bartoszmech.assignexamseats.classroom.Classroom;
-
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
