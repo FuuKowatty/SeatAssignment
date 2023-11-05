@@ -6,9 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.bartoszmech.assignexamseats.validator.ClassroomValidationEnum.*;
+
 import static pl.bartoszmech.assignexamseats.validator.ValidatorResult.failure;
 import static pl.bartoszmech.assignexamseats.validator.ValidatorResult.success;
+import static pl.bartoszmech.assignexamseats.validator.ClassroomValidationError.*;
 
 @Component
 public class ClassroomValidator {
@@ -17,7 +18,7 @@ public class ClassroomValidator {
     public static final int MINIMUM_CLASSROOM_NAME_CHARACTERS = 2;
     public static final int MAXIMUM_CLASSROOM_NAME_CHARACTER = 50;
 
-    private final List<ClassroomValidationEnum> errors = new LinkedList<>();
+    private final List<ClassroomValidationError> errors = new LinkedList<>();
 
     public ValidatorResult validate(String name, Integer columns, Integer rows) {
         checkNameOfClassroom(name);
@@ -34,13 +35,12 @@ public class ClassroomValidator {
         NONE
     }
 
-    private void checkClassroomLayoutValue(Integer value, ClassroomValidationEnum nullError, ClassroomValidationEnum tooBigError, ClassroomValidationEnum tooSmallError) {
+    private void checkClassroomLayoutValue(Integer value, ClassroomValidationError nullError, ClassroomValidationError tooBigError, ClassroomValidationError tooSmallError) {
         switch (isNull(value) ? Errors.NULL : (isGreaterThanMaximum(value) ? Errors.TOO_BIG : (isSmallerThanMinimum(value) ? Errors.TOO_SMALL : Errors.NONE))) {
             case NULL -> errors.add(nullError);
             case TOO_BIG -> errors.add(tooBigError);
             case TOO_SMALL -> errors.add(tooSmallError);
-            case NONE -> {
-            }
+            case NONE -> {}
         }
     }
 
@@ -62,8 +62,6 @@ public class ClassroomValidator {
         if(isTooShort(name)) {
             errors.add(CLASSROOM_NAME_TOO_SHORT);
         }
-
-
     }
 
     private boolean isTooLong(String str) {

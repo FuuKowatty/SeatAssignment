@@ -10,6 +10,9 @@ import pl.bartoszmech.assignexamseats.repository.ClassroomRepository;
 import pl.bartoszmech.assignexamseats.validator.ClassroomValidator;
 import pl.bartoszmech.assignexamseats.validator.ValidatorResult;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class ClassroomService {
@@ -24,19 +27,42 @@ public class ClassroomService {
         this.validator =validator;
     }
     public ClassroomDto create(ClassroomDto inputClassroom) {
-       LOGGER.info(inputClassroom.toString());
         ValidatorResult validatorResult = validator.validate(inputClassroom.name(), inputClassroom.columns(), inputClassroom.rows());
         if(!validatorResult.isValid()) {
             throw new RuntimeException(validatorResult.resultMessage());
         }
         try {
             Classroom classroom = repository.save(mapper.mapToClassroom(inputClassroom));
-            LOGGER.info("Dish added with id" + classroom.getId());
+            LOGGER.info("Classroom added with id" + classroom.getId());
             return mapper.mapToClassroomDto(classroom);
         } catch (Exception e) {
-            LOGGER.error("Failed to create dish", e);
-            throw new RuntimeException("Failed to create dish", e);
+            LOGGER.error("Failed to create classroom", e);
+            throw new RuntimeException("Failed to create classroom", e);
         }
+    }
+
+    public List<ClassroomDto> list() {
+        return mapper.mapToListDto(repository.findAll());
+    }
+
+    public void deleteById(Long classroomId) {
+        repository.deleteById(classroomId);
+    }
+
+    public void edit(Long classroomId, ClassroomDto classroomDto) {
+        //unhandled validation
+        repository.findById(classroomId)
+                .map(existingClassroom -> {
+                    Optional.ofNullable(classroomDto.name()).ifPresent(existingClassroom::setName);
+                    Optional.ofNullable(classroomDto.columns()).ifPresent(existingClassroom::setColumns);
+                    Optional.ofNullable(classroomDto.rows()).ifPresent(existingClassroom::setRows);
+                    LOGGER.info("Changes are accepted");
+                    Classroom updatedClassroom = repository.save(existingClassroom);
+                    return mapper.mapToClassroomDto(updatedClassroom);
+                }).orElseThrow(() -> {
+                    LOGGER.error("Invalid classroom id");
+                    return new RuntimeException("");
+                });
     }
 }
 

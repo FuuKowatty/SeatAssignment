@@ -3,7 +3,7 @@ package pl.bartoszmech.assignexamseats.validator;
 
 import static pl.bartoszmech.assignexamseats.validator.ClassroomValidator.*;
 
-public enum ClassroomValidationEnum {
+public enum ClassroomValidationError {
     CLASSROOM_NAME_TOO_SHORT("Classroom name is shorter than " + MINIMUM_CLASSROOM_NAME_CHARACTERS),
     CLASSROOM_NAME_TOO_LONG("Classroom name is longer than " + MAXIMUM_CLASSROOM_NAME_CHARACTER),
     CLASSROOM_NAME_NULL("Classroom name is null"),
@@ -16,7 +16,7 @@ public enum ClassroomValidationEnum {
 
     public final String message;
 
-    ClassroomValidationEnum(String message) {
+    ClassroomValidationError(String message) {
         this.message = message;
     }
 }
