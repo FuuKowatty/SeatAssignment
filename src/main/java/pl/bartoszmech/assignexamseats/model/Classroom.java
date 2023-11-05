@@ -10,9 +10,12 @@ public class Classroom {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
     private String name;
+
     @Column(name = "horizontal_seats")
     private Integer columns;
+
     @Column(name = "vertical_seats")
     private Integer rows;
 

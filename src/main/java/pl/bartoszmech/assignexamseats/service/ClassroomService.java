@@ -24,13 +24,9 @@ public class ClassroomService {
     public ClassroomService(ClassroomRepository repository, ClassroomMapper mapper, ClassroomValidator validator) {
         this.repository = repository;
         this.mapper = mapper;
-        this.validator =validator;
+        this.validator = validator;
     }
     public ClassroomDto create(ClassroomDto inputClassroom) {
-        ValidatorResult validatorResult = validator.validate(inputClassroom.name(), inputClassroom.columns(), inputClassroom.rows());
-        if(!validatorResult.isValid()) {
-            throw new RuntimeException(validatorResult.resultMessage());
-        }
         try {
             Classroom classroom = repository.save(mapper.mapToClassroom(inputClassroom));
             LOGGER.info("Classroom added with id" + classroom.getId());

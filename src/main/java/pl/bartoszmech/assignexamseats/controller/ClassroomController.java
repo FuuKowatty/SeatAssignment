@@ -1,5 +1,7 @@
 package pl.bartoszmech.assignexamseats.controller;
 
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.bartoszmech.assignexamseats.model.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.service.ClassroomService;
@@ -14,7 +16,8 @@ public class ClassroomController {
     }
 
     @PostMapping("")
-    public ClassroomDto create(@RequestBody ClassroomDto inputClassroom) {
-        return service.create(inputClassroom);
+    public ResponseEntity<ClassroomDto> create(@Valid @RequestBody ClassroomDto inputClassroom) {
+        ClassroomDto classroomDto = service.create(inputClassroom);
+        return ResponseEntity.ok().body(classroomDto);
     }
 }
