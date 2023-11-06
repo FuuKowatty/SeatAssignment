@@ -5,10 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.util.Optional;
-
 public record ClassroomDto(
         @Valid
+
+        Long id,
 
         @NotBlank(message = "Name cannot be null or empty")
         @Size(min= 2, message = "Name should be longer than 2 characters")
@@ -20,4 +20,7 @@ public record ClassroomDto(
         @NotNull(message = "Row cannot be null")
         Integer rows
 ) {
+    public ClassroomDto(String name, Integer columns, Integer rows) {
+            this(null, name, columns, rows);
+    }
 }

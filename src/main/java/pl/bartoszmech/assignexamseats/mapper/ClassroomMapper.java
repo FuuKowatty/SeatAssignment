@@ -18,7 +18,7 @@ public class ClassroomMapper {
     }
 
     public ClassroomDto mapToClassroomDto(Classroom classroom) {
-        return new ClassroomDto(classroom.getName(),classroom.getColumns() ,classroom.getRows());
+        return new ClassroomDto(classroom.getId(),classroom.getName(),classroom.getColumns() ,classroom.getRows());
     }
 
     public List<ClassroomDto> mapToListDto(List<Classroom> classrooms) {

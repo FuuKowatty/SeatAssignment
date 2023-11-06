@@ -2,7 +2,6 @@ package pl.bartoszmech.assignexamseats.seatassignment;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.bartoszmech.assignexamseats.model.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.seatassignment.dto.SeatAssignmentDto;
 import pl.bartoszmech.assignexamseats.student.dto.AllStudentsDto;
 import pl.bartoszmech.assignexamseats.student.dto.StudentDto;

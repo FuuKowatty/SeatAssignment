@@ -8,7 +8,6 @@ import pl.bartoszmech.assignexamseats.model.Classroom;
 import pl.bartoszmech.assignexamseats.model.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.repository.ClassroomRepository;
 import pl.bartoszmech.assignexamseats.validator.ClassroomValidator;
-import pl.bartoszmech.assignexamseats.validator.ValidatorResult;
 
 import java.util.List;
 import java.util.Optional;

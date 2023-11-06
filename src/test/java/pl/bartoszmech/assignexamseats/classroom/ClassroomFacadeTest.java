@@ -3,7 +3,6 @@ package pl.bartoszmech.assignexamseats.classroom;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.bartoszmech.assignexamseats.classroom.dto.AllClassroomsDto;
-import pl.bartoszmech.assignexamseats.model.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.validator.siema;
 
 import java.util.List;
