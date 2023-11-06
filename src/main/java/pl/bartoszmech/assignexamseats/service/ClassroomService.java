@@ -1,5 +1,4 @@
 package pl.bartoszmech.assignexamseats.service;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -8,10 +7,10 @@ import pl.bartoszmech.assignexamseats.mapper.ClassroomMapper;
 import pl.bartoszmech.assignexamseats.model.Classroom;
 import pl.bartoszmech.assignexamseats.model.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.repository.ClassroomRepository;
-import pl.bartoszmech.assignexamseats.validator.ClassroomValidator;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 
 @Service
@@ -19,12 +18,10 @@ public class ClassroomService {
     protected final Logger LOGGER = LoggerFactory.getLogger(ClassroomService.class);
     ClassroomRepository repository;
     ClassroomMapper mapper;
-    ClassroomValidator validator;
 
-    public ClassroomService(ClassroomRepository repository, ClassroomMapper mapper, ClassroomValidator validator) {
+    public ClassroomService(ClassroomRepository repository, ClassroomMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
-        this.validator = validator;
     }
     public ClassroomDto create(ClassroomDto inputClassroom) {
         try {
@@ -38,7 +35,10 @@ public class ClassroomService {
     }
 
     public List<ClassroomDto> list() {
-        return mapper.mapToListDto(repository.findAll());
+        Iterable<Classroom> classroomIterable = repository.findAll();
+        List<Classroom> classroomList = StreamSupport.stream(classroomIterable.spliterator(), false)
+                .toList();
+        return mapper.mapToListDto(classroomList);
     }
 
     public void deleteById(Long classroomId) {
