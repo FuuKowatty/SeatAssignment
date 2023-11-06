@@ -8,7 +8,6 @@ public class ErrorDetails {
     Map<String, String> details;
 
 
-
     public String getMessage() {
         return message;
     }

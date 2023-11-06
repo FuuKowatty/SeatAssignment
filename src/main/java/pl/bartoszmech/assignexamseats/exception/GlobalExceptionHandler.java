@@ -3,15 +3,13 @@ package pl.bartoszmech.assignexamseats.exception;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 
 @RestControllerAdvice
@@ -30,6 +28,14 @@ public class GlobalExceptionHandler {
         ErrorDetails response = new ErrorDetails();
         response.setMessage("Validation Failed");
         response.setDetails(errors);
-        return ResponseEntity.status(BAD_REQUEST).body(response);
+        return new ResponseEntity<>(response, BAD_REQUEST);
+    }
+
+    //handle not found
+    @ExceptionHandler(NotFound.class)
+    public ResponseEntity<ErrorDetails> handleStudentNotFoundException(NotFound e) {
+        ErrorDetails response = new ErrorDetails();
+        response.setMessage(e.getMessage());
+        return new ResponseEntity<>(response, NOT_FOUND);
     }
 }

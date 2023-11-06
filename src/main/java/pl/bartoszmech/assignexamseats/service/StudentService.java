@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import pl.bartoszmech.assignexamseats.exception.NotFound;
 import pl.bartoszmech.assignexamseats.mapper.StudentMapper;
 import pl.bartoszmech.assignexamseats.model.Classroom;
 import pl.bartoszmech.assignexamseats.model.Student;
@@ -11,6 +12,7 @@ import pl.bartoszmech.assignexamseats.model.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.model.dto.StudentDto;
 import pl.bartoszmech.assignexamseats.repository.StudentRepository;
 
+import javax.naming.directory.InvalidAttributeIdentifierException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -44,7 +46,12 @@ public class StudentService {
     }
 
     public void deleteById(long studentId) {
+        if(!existsById(studentId)) {
+            LOGGER.error("student with id: " + studentId + "does not exist");
+            throw new NotFound("Student with id: " + studentId + " does not exist");
+        }
         repository.deleteById(studentId);
+        LOGGER.info("student deleted");
     }
 
     public StudentDto edit(Long studentId, StudentDto studentDto) {
@@ -58,5 +65,9 @@ public class StudentService {
                     LOGGER.error("Invalid classroom id");
                     return new RuntimeException("");
                 });
+    }
+
+    private boolean existsById(long id) {
+        return repository.existsById(id);
     }
 }

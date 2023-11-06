@@ -11,11 +11,12 @@ public class Student {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-
     private String nickname;
+    private String schoolClass;
 
-    public Student(String nickname) {
+    public Student(String nickname, String schoolClass) {
         this.nickname = nickname;
+        this.schoolClass = schoolClass;
     }
 
     public Student() {}
@@ -30,5 +31,9 @@ public class Student {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getSchoolClass() {
+        return schoolClass;
     }
 }

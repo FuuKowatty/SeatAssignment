@@ -11,14 +11,16 @@ import java.util.List;
 public class StudentMapper {
     public Student mapToStudent(StudentDto classroomDto) {
         return new Student(
-                classroomDto.nickname()
+                classroomDto.nickname(),
+                classroomDto.schoolClass()
         );
     }
 
     public StudentDto mapToStudentDto(Student student) {
         return new StudentDto(
                 student.getId(),
-                student.getNickname()
+                student.getNickname(),
+                student.getSchoolClass()
         );
     }
 
