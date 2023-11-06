@@ -1,9 +1,7 @@
 package pl.bartoszmech.assignexamseats.model.dto;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public record ClassroomDto(
         @Valid
@@ -16,8 +14,12 @@ public record ClassroomDto(
         String name,
 
         @NotNull(message = "Column cannot be null")
+        @Min(value = 2, message = "Column should not be smaller than 2")
+        @Max(value = 99, message = "Column should not be greater than 99")
         Integer columns,
         @NotNull(message = "Row cannot be null")
+        @Min(value = 2, message = "Row should not be smaller than 2")
+        @Max(value = 99, message = "Row should not be greater than 99")
         Integer rows
 ) {
     public ClassroomDto(String name, Integer columns, Integer rows) {

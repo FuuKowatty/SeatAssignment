@@ -2,6 +2,7 @@ package pl.bartoszmech.assignexamseats.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import pl.bartoszmech.assignexamseats.mapper.ClassroomMapper;
 import pl.bartoszmech.assignexamseats.model.Classroom;
@@ -30,7 +31,7 @@ public class ClassroomService {
             Classroom classroom = repository.save(mapper.mapToClassroom(inputClassroom));
             LOGGER.info("Classroom added with id" + classroom.getId());
             return mapper.mapToClassroomDto(classroom);
-        } catch (Exception e) {
+        } catch (DataIntegrityViolationException e) {
             LOGGER.error("Failed to create classroom", e);
             throw new RuntimeException("Failed to create classroom", e);
         }
@@ -45,7 +46,6 @@ public class ClassroomService {
     }
 
     public void edit(Long classroomId, ClassroomDto classroomDto) {
-        //unhandled validation
         repository.findById(classroomId)
                 .map(existingClassroom -> {
                     Optional.ofNullable(classroomDto.name()).ifPresent(existingClassroom::setName);
