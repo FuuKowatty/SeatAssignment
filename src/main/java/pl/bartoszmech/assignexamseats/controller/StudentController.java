@@ -2,12 +2,11 @@ package pl.bartoszmech.assignexamseats.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.bartoszmech.assignexamseats.model.dto.StudentDto;
 import pl.bartoszmech.assignexamseats.service.StudentService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/students")
@@ -19,7 +18,17 @@ public class StudentController {
     }
     @PostMapping("")
     public ResponseEntity<StudentDto> create(@Valid @RequestBody StudentDto inputStudent) {
-        StudentDto studentDto = service.create(inputStudent);
-        return ResponseEntity.ok().body(studentDto);
+        return ResponseEntity.ok()
+                .body(service.create(inputStudent));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<StudentDto>> list() {
+        return ResponseEntity.ok().body(service.list());
+    }
+
+    @DeleteMapping("/{studentId}")
+    public void delete(@PathVariable long studentId) {
+        service.deleteById(studentId);
     }
 }

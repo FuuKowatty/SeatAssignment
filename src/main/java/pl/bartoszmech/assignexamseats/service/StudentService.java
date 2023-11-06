@@ -5,9 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import pl.bartoszmech.assignexamseats.mapper.StudentMapper;
+import pl.bartoszmech.assignexamseats.model.Classroom;
 import pl.bartoszmech.assignexamseats.model.Student;
+import pl.bartoszmech.assignexamseats.model.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.model.dto.StudentDto;
 import pl.bartoszmech.assignexamseats.repository.StudentRepository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @Service
 public class StudentService {
@@ -28,5 +34,29 @@ public class StudentService {
             LOGGER.error("Failed to create classroom", e);
             throw new RuntimeException("Failed to create classroom", e);
         }
+    }
+
+    public List<StudentDto> list() {
+        Iterable<Student> studentIterable = repository.findAll();
+        List<Student> studentList = StreamSupport.stream(studentIterable.spliterator(), false)
+                .toList();
+        return mapper.mapToListDto(studentList);
+    }
+
+    public void deleteById(long studentId) {
+        repository.deleteById(studentId);
+    }
+
+    public void edit(Long studentId, StudentDto studentDto) {
+        repository.findById(studentId)
+                .map(existingClassroom -> {
+                    Optional.ofNullable(studentDto.nickname()).ifPresent(existingClassroom::setNickname);
+                    LOGGER.info("Changes are accepted");
+                    Student updatedStudent = repository.save(existingClassroom);
+                    return mapper.mapToStudentDto(updatedStudent);
+                }).orElseThrow(() -> {
+                    LOGGER.error("Invalid classroom id");
+                    return new RuntimeException("");
+                });
     }
 }

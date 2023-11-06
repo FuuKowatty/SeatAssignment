@@ -18,11 +18,17 @@ public class Student {
         this.nickname = nickname;
     }
 
+    public Student() {}
+
     public Long getId() {
         return id;
     }
 
     public String getNickname() {
         return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }
