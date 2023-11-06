@@ -10,7 +10,7 @@ import pl.bartoszmech.assignexamseats.model.dto.StudentDto;
 import pl.bartoszmech.assignexamseats.service.StudentService;
 
 @RestController
-@RequestMapping("/student")
+@RequestMapping("/students")
 public class StudentController {
     StudentService service;
 
