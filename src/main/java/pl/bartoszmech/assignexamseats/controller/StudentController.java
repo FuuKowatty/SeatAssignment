@@ -3,6 +3,7 @@ package pl.bartoszmech.assignexamseats.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.bartoszmech.assignexamseats.model.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.model.dto.StudentDto;
 import pl.bartoszmech.assignexamseats.service.StudentService;
 
@@ -30,5 +31,10 @@ public class StudentController {
     @DeleteMapping("/{studentId}")
     public void delete(@PathVariable long studentId) {
         service.deleteById(studentId);
+    }
+
+    @PatchMapping("/{studentId}")
+    public ResponseEntity<StudentDto> update(@PathVariable long studentId, @Valid @RequestBody StudentDto inputStudent) {
+        return ResponseEntity.ok().body(service.edit(studentId, inputStudent));
     }
 }

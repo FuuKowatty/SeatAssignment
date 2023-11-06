@@ -2,6 +2,7 @@ package pl.bartoszmech.assignexamseats.model.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import org.springframework.context.annotation.Primary;
 
 public record ClassroomDto(
         @Valid

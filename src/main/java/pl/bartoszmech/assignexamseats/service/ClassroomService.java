@@ -45,8 +45,8 @@ public class ClassroomService {
         repository.deleteById(classroomId);
     }
 
-    public void edit(Long classroomId, ClassroomDto classroomDto) {
-        repository.findById(classroomId)
+    public ClassroomDto edit(Long classroomId, ClassroomDto classroomDto) {
+        return repository.findById(classroomId)
                 .map(existingClassroom -> {
                     Optional.ofNullable(classroomDto.name()).ifPresent(existingClassroom::setName);
                     Optional.ofNullable(classroomDto.columns()).ifPresent(existingClassroom::setColumns);

@@ -47,8 +47,8 @@ public class StudentService {
         repository.deleteById(studentId);
     }
 
-    public void edit(Long studentId, StudentDto studentDto) {
-        repository.findById(studentId)
+    public StudentDto edit(Long studentId, StudentDto studentDto) {
+        return repository.findById(studentId)
                 .map(existingClassroom -> {
                     Optional.ofNullable(studentDto.nickname()).ifPresent(existingClassroom::setNickname);
                     LOGGER.info("Changes are accepted");
