@@ -43,10 +43,7 @@ public class ClassroomService {
     }
 
     public void deleteById(Long classroomId) {
-        if(!existsById(classroomId)) {
-            LOGGER.error("classroom with id: " + classroomId + "does not exist");
-            throw new NotFound("Classroom with id: " + classroomId + " does not exist");
-        }
+        findById(classroomId);
         repository.deleteById(classroomId);
         LOGGER.info("student deleted");
     }
@@ -66,8 +63,14 @@ public class ClassroomService {
                 });
     }
 
-    private boolean existsById(long id) {
-        return repository.existsById(id);
+    public ClassroomDto findById(long id) {
+        Classroom classroom = repository.findById(id)
+                .orElseThrow(() -> {
+                    LOGGER.error("Student with id: " + id + "does not exist");
+                    return new NotFound("Classroom with id: " + id + " does not exist");
+                });
+
+        return mapper.mapToClassroomDto(classroom);
     }
 }
 

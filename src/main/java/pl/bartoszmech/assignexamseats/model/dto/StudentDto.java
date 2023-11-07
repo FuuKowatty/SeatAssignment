@@ -19,7 +19,4 @@ public record StudentDto(
         @Size(max = 50, message = "School class name cannot be longer than 50 characters")
         String schoolClass
 ) {
-    public StudentDto(String nickname, String schoolClass) {
-        this(null, nickname, schoolClass);
-    }
 }

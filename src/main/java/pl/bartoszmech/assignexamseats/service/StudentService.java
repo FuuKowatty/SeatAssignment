@@ -12,7 +12,6 @@ import pl.bartoszmech.assignexamseats.model.dto.ClassroomDto;
 import pl.bartoszmech.assignexamseats.model.dto.StudentDto;
 import pl.bartoszmech.assignexamseats.repository.StudentRepository;
 
-import javax.naming.directory.InvalidAttributeIdentifierException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -46,10 +45,7 @@ public class StudentService {
     }
 
     public void deleteById(long studentId) {
-        if(!existsById(studentId)) {
-            LOGGER.error("student with id: " + studentId + "does not exist");
-            throw new NotFound("Student with id: " + studentId + " does not exist");
-        }
+        findById(studentId);
         repository.deleteById(studentId);
         LOGGER.info("student deleted");
     }
@@ -67,7 +63,15 @@ public class StudentService {
                 });
     }
 
-    private boolean existsById(long id) {
-        return repository.existsById(id);
+    private void findById(long id) {
+        repository.findById(id)
+                .orElseThrow(() -> {
+                    LOGGER.error("Student with id: " + id + "does not exist");
+                    return new NotFound("Student with id: " + id + " does not exist");
+                });
+    }
+
+    public void checkIfStudentsExist(List<StudentDto> presentStudents) {
+        presentStudents.forEach(studentDto -> findById(studentDto.id()));
     }
 }
