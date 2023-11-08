@@ -1,12 +1,12 @@
 package pl.bartoszmech.assignexamseats.mapper;
 
-import pl.bartoszmech.assignexamseats.model.Student;
+import org.springframework.stereotype.Component;
 import pl.bartoszmech.assignexamseats.model.User;
-import pl.bartoszmech.assignexamseats.model.dto.StudentDto;
 import pl.bartoszmech.assignexamseats.model.dto.UserDto;
 
 import java.util.List;
 
+@Component
 public class UserMapper {
     public User mapToUser(UserDto userDto) {
         return new User(

@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 
 @RestControllerAdvice
@@ -37,5 +36,13 @@ public class GlobalExceptionHandler {
         ErrorDetails response = new ErrorDetails();
         response.setMessage(e.getMessage());
         return new ResponseEntity<>(response, NOT_FOUND);
+    }
+
+    //handle email taken
+    @ExceptionHandler(UserEmailTakenException.class)
+    public ResponseEntity<ErrorDetails> handleUserEmailTakenException(UserEmailTakenException userEmailTakenException) {
+        ErrorDetails response = new ErrorDetails();
+        response.setMessage(userEmailTakenException.getMessage());
+        return ResponseEntity.status(CONFLICT).body(response);
     }
 }
