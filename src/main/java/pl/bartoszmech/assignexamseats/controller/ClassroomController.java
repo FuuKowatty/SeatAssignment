@@ -13,7 +13,7 @@ import pl.bartoszmech.assignexamseats.service.StudentService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/classrooms")
+@RequestMapping("/api/classrooms")
 public class ClassroomController {
     private final ClassroomService service;
     private final SeatAssignmentService seatAssignmentService;

@@ -6,7 +6,7 @@ import pl.bartoszmech.assignexamseats.model.dto.UserDto;
 import pl.bartoszmech.assignexamseats.service.UserService;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/api/users")
 public class UserController {
 
     UserService service;

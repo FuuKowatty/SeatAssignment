@@ -10,7 +10,7 @@ import pl.bartoszmech.assignexamseats.service.StudentService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("api/students")
 public class StudentController {
     StudentService service;
 
