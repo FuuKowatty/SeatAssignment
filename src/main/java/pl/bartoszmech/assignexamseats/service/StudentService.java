@@ -27,6 +27,7 @@ public class StudentService {
         this.mapper = mapper;
     }
     public StudentDto create(StudentDto inputStudent) {
+        checkIfExistByNickname(inputStudent.nickname());
         try {
             Student student = repository.save(mapper.mapToStudent(inputStudent));
             LOGGER.info("Student added with id " + student.getId());
@@ -51,6 +52,7 @@ public class StudentService {
     }
 
     public StudentDto edit(Long studentId, StudentDto studentDto) {
+        checkIfExistByNickname(studentDto.nickname());
         return repository.findById(studentId)
                 .map(existingClassroom -> {
                     Optional.ofNullable(studentDto.nickname()).ifPresent(existingClassroom::setNickname);
@@ -58,8 +60,8 @@ public class StudentService {
                     Student updatedStudent = repository.save(existingClassroom);
                     return mapper.mapToStudentDto(updatedStudent);
                 }).orElseThrow(() -> {
-                    LOGGER.error("Invalid classroom id");
-                    return new RuntimeException("");
+                    LOGGER.error("Invalid student id");
+                    return new NotFound("Student with that id does not exist");
                 });
     }
 
@@ -68,6 +70,15 @@ public class StudentService {
                 .orElseThrow(() -> {
                     LOGGER.error("Student with id: " + id + "does not exist");
                     return new NotFound("Student with id: " + id + " does not exist");
+                });
+    }
+
+    private void checkIfExistByNickname(String nickname) {
+        repository.existsByNickname(nickname)
+                .orElseThrow(() -> {
+                    String message = "Student with nickname: " + nickname + "does not exist";
+                    LOGGER.error(message);
+                    return new NotFound(message);
                 });
     }
 

@@ -19,6 +19,7 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String email;
     private String password;
 

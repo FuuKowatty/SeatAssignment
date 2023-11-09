@@ -11,6 +11,7 @@ public class Classroom {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     @Column(name = "horizontal_seats")
