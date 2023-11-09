@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import pl.bartoszmech.assignexamseats.auth.dto.LoginRequest;
 import pl.bartoszmech.assignexamseats.auth.dto.RegisterRequest;
 import pl.bartoszmech.assignexamseats.auth.token.JwtService;
-import pl.bartoszmech.assignexamseats.auth.dto.LoginResponse;
+import pl.bartoszmech.assignexamseats.auth.dto.AuthenticatedResponse;
 import pl.bartoszmech.assignexamseats.auth.token.Token;
 import pl.bartoszmech.assignexamseats.auth.token.TokenRepository;
 import pl.bartoszmech.assignexamseats.exception.AuthenticationErrorException;
@@ -44,16 +44,16 @@ public class AuthenticationService {
         this.tokenRepository = tokenRepository;
     }
 
-    public LoginResponse register(RegisterRequest request) {
+    public AuthenticatedResponse register(RegisterRequest request) {
         emailCheck(request.getEmail());
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        var savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(user);
         LOGGER.info("User successfully created with id " + user.getId());
-        var jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(user);
         saveUserToken(savedUser, jwtToken);
-        return LoginResponse.builder()
+        return AuthenticatedResponse.builder()
                 .token(jwtToken)
                 .build();
     }
@@ -67,15 +67,14 @@ public class AuthenticationService {
     }
 
     private void saveUserToken(User user, String jwtToken) {
-        var token = Token.builder()
+        tokenRepository.save(Token.builder()
                 .user(user)
                 .token(jwtToken)
                 .tokenType(BEARER)
-                .build();
-        tokenRepository.save(token);
+                .build());
     }
 
-    public LoginResponse login(LoginRequest request) {
+    public AuthenticatedResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new AuthenticationErrorException(EMAIL, "Invalid email"));
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
@@ -86,7 +85,7 @@ public class AuthenticationService {
             removeUserTokenIfExists(user);
             var jwtToken = jwtService.generateToken(user);
             saveUserToken(user, jwtToken);
-            return LoginResponse.builder()
+            return AuthenticatedResponse.builder()
                     .token(jwtToken)
                     .build();
         } else {

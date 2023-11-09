@@ -5,18 +5,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Objects;
 
 @ResponseBody
-public class LoginResponse {
+public class AuthenticatedResponse {
     private String token;
 
 
-    public LoginResponse() {
+    public AuthenticatedResponse() {
     }
 
-    public LoginResponse(String token) {
+    public AuthenticatedResponse(String token) {
         this.token = token;
     }
 
-    private LoginResponse(Builder builder) {
+    private AuthenticatedResponse(Builder builder) {
         this.token = builder.token;
     }
 
@@ -35,8 +35,8 @@ public class LoginResponse {
             this.token = token;
             return this;
         }
-        public LoginResponse build() {
-            return new LoginResponse(this);
+        public AuthenticatedResponse build() {
+            return new AuthenticatedResponse(this);
         }
     }
 
@@ -44,7 +44,7 @@ public class LoginResponse {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LoginResponse that = (LoginResponse) o;
+        AuthenticatedResponse that = (AuthenticatedResponse) o;
         return Objects.equals(token, that.token);
     }
 
