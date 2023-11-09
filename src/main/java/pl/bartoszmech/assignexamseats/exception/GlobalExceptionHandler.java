@@ -1,5 +1,6 @@
 package pl.bartoszmech.assignexamseats.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -48,9 +49,24 @@ public class GlobalExceptionHandler {
 
     //handle student nickname taken
     @ExceptionHandler(StudentNicknameTaken.class)
-    public ResponseEntity<ErrorDetails> handleUserStudentNicknameTakenException(StudentNicknameTaken StudentNicknameTaken) {
+    public ResponseEntity<ErrorDetails> handleStudentNicknameTakenException(StudentNicknameTaken StudentNicknameTaken) {
         ErrorDetails response = new ErrorDetails();
         response.setMessage(StudentNicknameTaken.getMessage());
         return ResponseEntity.status(CONFLICT).body(response);
+    }
+
+    //handle classroom name taken
+    @ExceptionHandler(ClassroomNameTaken.class)
+    public ResponseEntity<ErrorDetails> handleClassroomTakenException(ClassroomNameTaken classroomNameTaken) {
+        ErrorDetails response = new ErrorDetails();
+        response.setMessage(classroomNameTaken.getMessage());
+        return ResponseEntity.status(CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(AuthenticationError.class)
+    public ResponseEntity<ErrorDetails> handleClassroomTakenException(AuthenticationError authenticationError) {
+        ErrorDetails response = new ErrorDetails();
+        response.setMessage(authenticationError.getMessage());
+        return ResponseEntity.status(BAD_REQUEST).body(response);
     }
 }

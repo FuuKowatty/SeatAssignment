@@ -3,6 +3,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import pl.bartoszmech.assignexamseats.exception.ClassroomNameTaken;
 import pl.bartoszmech.assignexamseats.exception.NotFound;
 import pl.bartoszmech.assignexamseats.mapper.ClassroomMapper;
 import pl.bartoszmech.assignexamseats.model.Classroom;
@@ -25,6 +26,7 @@ public class ClassroomService {
         this.mapper = mapper;
     }
     public ClassroomDto create(ClassroomDto inputClassroom) {
+        checkIfClassroomNameExists(inputClassroom.name());
         try {
             Classroom classroom = repository.save(mapper.mapToClassroom(inputClassroom));
             LOGGER.info("Classroom added with id" + classroom.getId());
@@ -48,12 +50,13 @@ public class ClassroomService {
         LOGGER.info("student deleted");
     }
 
-    public ClassroomDto edit(Long classroomId, ClassroomDto classroomDto) {
+    public ClassroomDto edit(Long classroomId, ClassroomDto inputClassroom) {
+        checkIfClassroomNameExists(inputClassroom.name());
         return repository.findById(classroomId)
                 .map(existingClassroom -> {
-                    Optional.ofNullable(classroomDto.name()).ifPresent(existingClassroom::setName);
-                    Optional.ofNullable(classroomDto.columns()).ifPresent(existingClassroom::setColumns);
-                    Optional.ofNullable(classroomDto.rows()).ifPresent(existingClassroom::setRows);
+                    Optional.ofNullable(inputClassroom.name()).ifPresent(existingClassroom::setName);
+                    Optional.ofNullable(inputClassroom.columns()).ifPresent(existingClassroom::setColumns);
+                    Optional.ofNullable(inputClassroom.rows()).ifPresent(existingClassroom::setRows);
                     LOGGER.info("Changes are accepted");
                     Classroom updatedClassroom = repository.save(existingClassroom);
                     return mapper.mapToClassroomDto(updatedClassroom);
@@ -71,6 +74,12 @@ public class ClassroomService {
                 });
 
         return mapper.mapToClassroomDto(classroom);
+    }
+
+    private void checkIfClassroomNameExists(String name) {
+        if(repository.existsByName(name)) {
+            throw new ClassroomNameTaken("Provided classroom name already exists");
+        }
     }
 }
 

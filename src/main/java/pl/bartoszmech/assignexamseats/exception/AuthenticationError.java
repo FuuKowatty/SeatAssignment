@@ -1,16 +1,18 @@
 package pl.bartoszmech.assignexamseats.exception;
 
 
-public class AuthenticationErrorException extends RuntimeException {
-    private final AuthenticationError type;
+import pl.bartoszmech.assignexamseats.auth.AuthenticationErrorEnum;
+
+public class AuthenticationError extends RuntimeException {
+    private final AuthenticationErrorEnum type;
     private final String message;
 
-    public AuthenticationErrorException(AuthenticationError type, String message) {
+    public AuthenticationError(AuthenticationErrorEnum type, String message) {
         this.type = type;
         this.message = message;
     }
 
-    public AuthenticationError getType() {
+    public AuthenticationErrorEnum getType() {
         return type;
     }
 

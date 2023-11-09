@@ -13,16 +13,16 @@ import pl.bartoszmech.assignexamseats.auth.token.JwtService;
 import pl.bartoszmech.assignexamseats.auth.dto.AuthenticatedResponse;
 import pl.bartoszmech.assignexamseats.auth.token.Token;
 import pl.bartoszmech.assignexamseats.auth.token.TokenRepository;
-import pl.bartoszmech.assignexamseats.exception.AuthenticationErrorException;
+import pl.bartoszmech.assignexamseats.exception.AuthenticationError;
 import pl.bartoszmech.assignexamseats.exception.UserEmailTakenException;
 import pl.bartoszmech.assignexamseats.model.User;
 import pl.bartoszmech.assignexamseats.repository.UserRepository;
 
 import java.util.Optional;
 
+import static pl.bartoszmech.assignexamseats.auth.AuthenticationErrorEnum.EMAIL;
+import static pl.bartoszmech.assignexamseats.auth.AuthenticationErrorEnum.PASSWORD;
 import static pl.bartoszmech.assignexamseats.auth.token.TokenType.BEARER;
-import static pl.bartoszmech.assignexamseats.exception.AuthenticationError.EMAIL;
-import static pl.bartoszmech.assignexamseats.exception.AuthenticationError.PASSWORD;
 
 @Service
 public class AuthenticationService {
@@ -76,7 +76,7 @@ public class AuthenticationService {
 
     public AuthenticatedResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new AuthenticationErrorException(EMAIL, "Invalid email"));
+                .orElseThrow(() -> new AuthenticationError(EMAIL, "Invalid email"));
         if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     request.getEmail(),
@@ -89,7 +89,7 @@ public class AuthenticationService {
                     .token(jwtToken)
                     .build();
         } else {
-            throw new AuthenticationErrorException(PASSWORD, "Invalid password");
+            throw new AuthenticationError(PASSWORD, "Invalid password");
         }
     }
 
