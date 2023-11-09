@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import pl.bartoszmech.assignexamseats.exception.NotFound;
+import pl.bartoszmech.assignexamseats.exception.StudentNicknameTaken;
 import pl.bartoszmech.assignexamseats.mapper.StudentMapper;
 import pl.bartoszmech.assignexamseats.model.Classroom;
 import pl.bartoszmech.assignexamseats.model.Student;
@@ -13,6 +14,7 @@ import pl.bartoszmech.assignexamseats.model.dto.StudentDto;
 import pl.bartoszmech.assignexamseats.repository.StudentRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
@@ -27,7 +29,7 @@ public class StudentService {
         this.mapper = mapper;
     }
     public StudentDto create(StudentDto inputStudent) {
-        checkIfExistByNickname(inputStudent.nickname());
+        doesNicknameExistInSchoolClass(inputStudent.nickname(), inputStudent.schoolClass());
         try {
             Student student = repository.save(mapper.mapToStudent(inputStudent));
             LOGGER.info("Student added with id " + student.getId());
@@ -51,11 +53,11 @@ public class StudentService {
         LOGGER.info("student deleted");
     }
 
-    public StudentDto edit(Long studentId, StudentDto studentDto) {
-        checkIfExistByNickname(studentDto.nickname());
+    public StudentDto edit(Long studentId, StudentDto inputStudent) {
+        doesNicknameExistInSchoolClass(inputStudent.nickname(), inputStudent.schoolClass());
         return repository.findById(studentId)
                 .map(existingClassroom -> {
-                    Optional.ofNullable(studentDto.nickname()).ifPresent(existingClassroom::setNickname);
+                    Optional.ofNullable(inputStudent.nickname()).ifPresent(existingClassroom::setNickname);
                     LOGGER.info("Changes are accepted");
                     Student updatedStudent = repository.save(existingClassroom);
                     return mapper.mapToStudentDto(updatedStudent);
@@ -73,13 +75,10 @@ public class StudentService {
                 });
     }
 
-    private void checkIfExistByNickname(String nickname) {
-        repository.existsByNickname(nickname)
-                .orElseThrow(() -> {
-                    String message = "Student with nickname: " + nickname + "does not exist";
-                    LOGGER.error(message);
-                    return new NotFound(message);
-                });
+    private void doesNicknameExistInSchoolClass(String nickname, String schoolClass) {
+        if(repository.doesNicknameExistInSchoolClass(schoolClass, nickname)) {
+            throw new StudentNicknameTaken("Student with that nickname exists in this class");
+        }
     }
 
     public void checkIfStudentsExist(List<StudentDto> presentStudents) {

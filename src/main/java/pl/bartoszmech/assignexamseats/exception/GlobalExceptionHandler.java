@@ -45,4 +45,12 @@ public class GlobalExceptionHandler {
         response.setMessage(userEmailTakenException.getMessage());
         return ResponseEntity.status(CONFLICT).body(response);
     }
+
+    //handle student nickname taken
+    @ExceptionHandler(StudentNicknameTaken.class)
+    public ResponseEntity<ErrorDetails> handleUserStudentNicknameTakenException(StudentNicknameTaken StudentNicknameTaken) {
+        ErrorDetails response = new ErrorDetails();
+        response.setMessage(StudentNicknameTaken.getMessage());
+        return ResponseEntity.status(CONFLICT).body(response);
+    }
 }
