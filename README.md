@@ -37,15 +37,30 @@ During the development of this project I had to face of a bunch of problems. The
 ```shell
 java --version
 ```
-
+2. Ensure that you have installed docker onn your computer by
+```shell
+docker --version
+```
+3. Open docker service or docker-desktop
+```shell
+sudo service docker start 
+```
 
 ## How to build the project on your own
-1. Clone this repostiroy
+1. Clone this repository
 ```shell
 git clone https://github.com/FuuKowatty/SeatAssignment.git
 ```
 2. Go to the folder with cloned repository
-3. Run the application
+3. Build docker image
+```shell
+docker build -t seat-assignment .
+```
+4. Open database
+```shell
+docker run -d -p 3306:3306 seat-assignment 
+```
+5. Run the application
 ```shell
 .\mvnw spring-boot:run
 ```
