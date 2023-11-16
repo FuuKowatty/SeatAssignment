@@ -40,7 +40,7 @@ java --version
 
 
 ## How to build the project on your own
-1. Clone this repostiroy
+1. Clone this repository
 ```shell
 git clone https://github.com/FuuKowatty/SeatAssignment.git
 ```
